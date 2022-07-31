@@ -39,6 +39,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 body {
   background-color: rgb(217, 85, 80);
   width: 100vw;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 h1 {
   font-size: 28px;
@@ -61,13 +62,14 @@ h1 {
 .timer {
   color: #fafafa;
   display: flex;
+  position: relative;
   align-items: center;
   flex-direction: column;
   margin: 80px 0 0 0;
   background-color: rgba(255, 255, 255, 0.1) ;
   max-width: 500px;
   margin: 80px auto 0 auto;
-  padding: 10px 0 10px 0;
+  padding: 10px 0 100px 0;
   & .timer__nav {
     display: flex;
     gap: 40px;
@@ -76,54 +78,79 @@ h1 {
   }
   & .time__circle {
     margin: 20px 0 10px 0;
-    width: 200px;
-    height: 200px;
+    width: 12vw;
+    height: 12vw;
+    max-width: 265px;
+    max-height: 265px;
+    min-width: 180px;
+    min-height: 180px;
     border-radius: 100%;
     background: rgba(255, 255, 255, 0.6);
   }
   & .timer__time-string {
-    font-size: 50px;
+    font-size: calc(min(calc(max(3.5vw, 50px)), 80px) );
   }
-  & .timer__start-button {
-    color: red;
-  }
-  // timer__start-button
 }
-
-
-
-
-.timer__start-button:hover,
-.timer__start-button:focus {
-  box-shadow: inset 0 0 0 2em var(--hover);
-}
-$colors: (
-  timer__start-button: #cba372,
-);
-
-@each $button, $color in $colors {
-  .#{$button} {
-    --hover: #{adjust-hue($color, 45deg)};
+.timer__nav {
+  & li:hover {
+    position: relative;
+    transition: all .25s;
+    line-height: 16px;
+    cursor: pointer;
+    font-size: 22px;
   }
 }
 
-// Now every button will have different colors as set above. We get to use the same structure, only changing the custom properties.
+$color: #c51b12;
 
-
-
-
-// Basic button styles
-button {
-  background: none;
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  margin: 0.5em;
-  padding: 1em 2em;
+@keyframes sheen {
+  0% {
+    transform: skewY(-45deg) translateX(0);
+  }
+  100% {
+    transform: skewY(-45deg) translateX(12.5em);
+  }
 }
 
-
-code { 
-  color: #e4cb58;
-  font: inherit;
+.button__wrapper {
+  display: flex;
+  position: absolute;
+  margin: 30px 0 0 0;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.timer__start-button {
+  padding: 0.375em 1em;
+  text-align: center;
+  text-decoration: none;
+  color: $color;
+  border: 2px solid $color;
+  font-size: 24px;
+  display: inline-block;
+  border-radius: 0.3em;
+  transition: all 0.4s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    background-color: rgba(255,255,255,0.5);
+    height: 100%;
+    width: 3em;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -4.5em;
+    transform: skewX(-45deg) translateX(0);
+    transition: none;
+  }
+  &:hover {
+    background-color: $color;
+    color: #fff;
+    border-bottom: 4px solid darken($color, 10%);
+    &:before {
+      transform: skewX(-45deg) translateX(13.5em);
+     transition: all 0.5s ease-in-out;
+    }
+  }
 }
